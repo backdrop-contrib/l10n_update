@@ -84,6 +84,13 @@ class PoDatabaseReader implements PoReaderInterface {
   }
 
   /**
+   * @param string $textgroup
+   */
+  public function setTextgroup($textgroup) {
+    $this->_textgroup = $textgroup;
+  }
+
+  /**
    * Set the options for the current reader.
    */
   public function setOptions(array $options) {
@@ -93,13 +100,6 @@ class PoDatabaseReader implements PoReaderInterface {
       'not_translated' => FALSE,
     );
     $this->_options = $options;
-  }
-
-  /**
-   * @param \string $textgroup
-   */
-  public function setTextgroup($textgroup) {
-    $this->_textgroup = $textgroup;
   }
 
   /**
@@ -125,9 +125,11 @@ class PoDatabaseReader implements PoReaderInterface {
   private function loadStrings() {
     $langcode = $this->_langcode;
     $options = $this->_options;
-    $textgroup = $this->_textgroup;
+    if (module_exists('i18n_string')) {
+      $textgroup = $this->_textgroup;
+    }
     $conditions = array();
-    if ($textgroup) {
+    if (module_exists('i18n_string') && $textgroup) {
       $conditions['textgroup'] = $textgroup;
     }
 
@@ -178,7 +180,7 @@ class PoDatabaseReader implements PoReaderInterface {
     if (!isset($this->_result)) {
       $this->_result = $this->loadStrings();
     }
-    return array_shift($this->_result);
+    return array_shift((array) $this->_result);
   }
 
   /**
