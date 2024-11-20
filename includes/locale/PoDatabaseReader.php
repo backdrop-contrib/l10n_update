@@ -84,13 +84,6 @@ class PoDatabaseReader implements PoReaderInterface {
   }
 
   /**
-   * @param string $textgroup
-   */
-  public function setTextgroup($textgroup) {
-    $this->_textgroup = $textgroup;
-  }
-
-  /**
    * Set the options for the current reader.
    */
   public function setOptions(array $options) {
@@ -100,6 +93,13 @@ class PoDatabaseReader implements PoReaderInterface {
       'not_translated' => FALSE,
     );
     $this->_options = $options;
+  }
+
+  /**
+   * @param string $textgroup
+   */
+  public function setTextgroup($textgroup) {
+    $this->_textgroup = $textgroup;
   }
 
   /**
